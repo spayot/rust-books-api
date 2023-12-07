@@ -1,11 +1,12 @@
 use diesel;
 use diesel::pg::PgConnection;
 use diesel::prelude::*;
+use serde::{Deserialize, Serialize};
 
 use crate::schema::books;
 use crate::schema::books::dsl::books as all_books;
 
-#[derive(Queryable)]
+#[derive(Queryable, Serialize, Clone, Debug)]
 pub struct Book {
     id: i32,
     title: String,
@@ -13,8 +14,8 @@ pub struct Book {
     published: bool,
 }
 
-#[derive(Insertable)]
-#[table_name = "books"]
+#[derive(Insertable, Serialize, Deserialize, Clone, Debug)]
+#[diesel(table_name = books)]
 pub struct NewBook {
     pub title: String,
     pub author: String,
